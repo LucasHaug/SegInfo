@@ -40,11 +40,11 @@ Já durante o ataque, as seguintes etapas têm que ser realizadas:
 3. Ler a chave pública assimétrica
 4. Encriptar chave simétrica utilizando a chave pública assimétrica
 
-Após o ataque ter sido concluído e a desencriptação tiver que ser realizadas, são executados os seguintes passos:
+Após o ataque ter sido concluído e a decriptação tiver que ser realizadas, são executados os seguintes passos:
 
 1. Ler a chave privada assimétrica
-2. Desencriptar a chave simétrica utiliando a chave privada assimétrica
-3. Desencriptar arquivos utlizando a chave simétrica
+2. Decriptar a chave simétrica utiliando a chave privada assimétrica
+3. Decriptar arquivos utlizando a chave simétrica
 
 ### Antes do ataque
 
@@ -107,7 +107,7 @@ with open("public_asym_key.pem", "wb") as file:
 
 ### Método útil para durante e depois do ataque
 
-Tanto para conseguir encriptar os arquivos da "vítima" durante o ataque, quanto para desencriptá-los depois do ataque, é necessário conseguir listar todos os arquivos que serão afetados, para isso é interessante definir uma função que liste todos esses arquivos, a qual pode ser definida como mostra a seguir:
+Tanto para conseguir encriptar os arquivos da "vítima" durante o ataque, quanto para decriptá-los depois do ataque, é necessário conseguir listar todos os arquivos que serão afetados, para isso é interessante definir uma função que liste todos esses arquivos, a qual pode ser definida como mostra a seguir:
 
 ```Python
 import os
@@ -275,7 +275,7 @@ private_key = read_private_key("private_asym_key.pem")
 
 sym_key = decrypt_sym_key("sym_key.key", private_key)
 
-filenames_list = list_files("/caminho/até/o/diretório/com/arquivos/a/serem/desencriptados")
+filenames_list = list_files("/caminho/até/o/diretório/com/arquivos/a/serem/decriptados")
 
 for filename in filenames_list:
     decrypt_file(filename,  sym_key)
@@ -299,7 +299,7 @@ python3 encrypt.py
 
 Verifique agora o conteúdo dos arquivos, veja se é possível visualizar seus conteúdos.
 
-Por fim, para desencriptar os arquivos, rode o seguinte comando:
+Por fim, para decriptar os arquivos, rode o seguinte comando:
 
 ```bash
 python3 decrypt.py
