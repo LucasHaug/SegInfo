@@ -4,7 +4,7 @@ Trabalho para a disciplina de Segurança da Informação - PCS3544
 
 ## 🎈 Introdução
 
-Este trabalho tem como objetivo demonstrar uma implmentação didática de um ransomware simples utilizando a linguagem Python.
+Este trabalho tem como objetivo demonstrar uma implementação didática de um ransomware simples utilizando a linguagem Python.
 
 A base para a implementação desse ransomware é a utilização de algoritmos de criptografia assimétricos, isso é importante para dar controle sobre a cifração para o "atacante". Dessa forma, uma chave pública será utilizada para a cifração no dispositivo da "vítima", enquanto a chave privada correspondente ficaria em posse do "atacante".
 
@@ -43,12 +43,12 @@ Já durante o ataque, as seguintes etapas têm que ser realizadas:
 Após o ataque ter sido concluído e a decriptação tiver que ser realizadas, são executados os seguintes passos:
 
 1. Ler a chave privada assimétrica
-2. Decriptar a chave simétrica utiliando a chave privada assimétrica
-3. Decriptar arquivos utlizando a chave simétrica
+2. Decriptar a chave simétrica utilizando a chave privada assimétrica
+3. Decriptar arquivos utilizando a chave simétrica
 
 ### Antes do ataque
 
-Antes do ataque é necessário gerar as chaves que serão utilizadas pelo algoritmo de critografia assimétrico, para isso se utilizará a implementação do algoritmo RSA da biblioteca `cryptography` do Python.
+Antes do ataque é necessário gerar as chaves que serão utilizadas pelo algoritmo de criptografia assimétrico, para isso se utilizará a implementação do algoritmo RSA da biblioteca `cryptography` do Python.
 
 Sendo então necessário realizar a importação dos métodos que serão utilizados na geração das chaves.
 
@@ -62,7 +62,7 @@ from cryptography.hazmat.primitives import serialization
 
 Para gerar a chave privada é possível utilizar a função `rsa.generate_private_key`, definindo o `public_exponent` como `65537` e o tamanho da chave como `2048`.
 
-> O `public_exponent` deve ser um número primo positivo, de preferência um número primo grande. Neste trabalho foi utilizado o número `65537` por ser o número normalmente utilizado em criptografias utilizando o RSA. Esse número é utilizado, principalmente, por razões históricas, uma vez que implementações anteriores do RSA em que expoentes muito pequenos eram utilizadas ficavam mais vuneráveis, enquanto a utilização de expoentes muito elevados exigiam um poder computacional muito grande. Esse número também é conhecido como o número de Fermat (Fn = 2^[2^(n)] + 1), com n = 4.
+> O `public_exponent` deve ser um número primo positivo, de preferência um número primo grande. Neste trabalho foi utilizado o número `65537` por ser o número normalmente utilizado em criptografias utilizando o RSA. Esse número é utilizado, principalmente, por razões históricas, uma vez que implementações anteriores do RSA que utilizavam expoentes muito pequenos eram mais vulneráveis, enquanto a utilização de expoentes muito elevados exigiam um poder computacional muito grande. Esse número também é conhecido como o número de Fermat (Fn = 2^[2^(n)] + 1), com n = 4.
 
 ```Python
 private_key = rsa.generate_private_key(
@@ -72,7 +72,7 @@ private_key = rsa.generate_private_key(
 )
 ```
 
-Após gerar a chave, para utilizá-la porsteriormente é necessário serializá-la e salvá-la em um arquivo `.pem`.
+Após gerar a chave, para utilizá-la posteriormente é necessário serializá-la e salvá-la em um arquivo `.pem`.
 
 ```Python
 serial_private = private_key.private_bytes(
@@ -149,7 +149,7 @@ def generate_sym_key():
 
 #### Encriptando os arquivos
 
-Tendo-se a chave simétrica gerada anteriormente, é possível encriptar os dados de um arquivo com o método `Fernet(key).encrypt`. Para isso então é necessário primeiramente abrir o arquivo a ser encriptado, então ler seu conteúdo, encriptar seu conteúdo e por escrever esse conteúdo de volta no arquivo lido.
+Tendo-se a chave simétrica gerada anteriormente, é possível encriptar os dados de um arquivo com o método `Fernet(key).encrypt`. Para isso então é necessário primeiramente abrir o arquivo a ser encriptado, então ler seu conteúdo, encriptar seu conteúdo e por fim escrever esse conteúdo de volta no arquivo lido.
 
 ```Python
 def encrypt_file(filename, key):
@@ -267,7 +267,7 @@ def decrypt_sym_key(sym_key_filename, private_key):
 
 #### Decriptando os arquivos
 
-Tendo-se a chave simétrica decriptada, é possível decriptar os dados de um arquivo com o método `Fernet(key).decrypt`. Para isso então é necessário primeiramente abrir o arquivo encriptado, então ler seu conteúdo, decriptar seu conteúdo e por escrever esse conteúdo de volta no arquivo.
+Tendo-se a chave simétrica decriptada, é possível decriptar os dados de um arquivo com o método `Fernet(key).decrypt`. Para isso então é necessário primeiramente abrir o arquivo encriptado, então ler seu conteúdo, decriptar seu conteúdo e por fim escrever esse conteúdo de volta no arquivo.
 
 ```Python
 def decrypt_file(filename, key):
@@ -297,9 +297,9 @@ for filename in filenames_list:
 
 ## 🚀 Utilizando os scripts
 
-É possível testar o funcionamento completo do programa com os script presentes neste respositório. Para esse teste serão o alvo do ataque serão os arquivos presentes na pasta `agentes_secretos`, verifique o conteúdo dos arquivos antes de inciar o processo.
+É possível testar o funcionamento completo do programa com os script presentes neste repositório. Para esse teste, o alvo do ataque serão os arquivos presentes na pasta `agentes_secretos`, verifique o conteúdo dos arquivos antes de iniciar o processo.
 
-Primeramente, para gerar as chaves do algoritmo assimétrico, rode o seguinte comando no terminal:
+Primeiramente, para gerar as chaves do algoritmo assimétrico, rode o seguinte comando no terminal:
 
 ```bash
 python3 generate_keys.py
