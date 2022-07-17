@@ -149,7 +149,7 @@ def generate_sym_key():
 
 #### Encriptando os arquivos
 
-Tendo-se a chave gerada anteriormente, é possível encriptar os dados de um arquivo com o método `Fernet(key).encrypt`. Para isso então é necessário primeiramente abrir o arquivo a ser encriptado, então ler seu conteúdo, encriptar seu conteúdo e por escrever esse conteúdo de volta no arquivo lido.
+Tendo-se a chave simétrica gerada anteriormente, é possível encriptar os dados de um arquivo com o método `Fernet(key).encrypt`. Para isso então é necessário primeiramente abrir o arquivo a ser encriptado, então ler seu conteúdo, encriptar seu conteúdo e por escrever esse conteúdo de volta no arquivo lido.
 
 ```Python
 def encrypt_file(filename, key):
@@ -164,7 +164,7 @@ def encrypt_file(filename, key):
 
 #### Lendo a chave pública assimétrica
 
-Para que se possa encriptar a chave simétrica gerada utilizando a chave pública assimétrica gerada anteriormente, é necessário primeiramente ler os dados do arquivo salvo e realizar a desserialização dos dados da chave.
+Para que se possa encriptar a chave simétrica gerada utilizando a chave pública assimétrica gerada anteriormente, é necessário primeiramente ler os dados do arquivo salvo da chave pública assimétrica e realizar a desserialização dos dados da chave.
 
 ```Python
 def read_public_key(filename):
@@ -215,6 +215,12 @@ encrypt_sym_key(sym_key, public_key, "sym_key.key")
 
 ### Após o ataque
 
+Assim como para gerar as chaves e para a encriptação dos arquivos, para realizar as decriptações necessárias se utilizará a biblioteca `cryptography` do Python.
+
+Sendo então necessário realizar a importação dos métodos que serão utilizados em todos os procedimentos no momento posterior ao ataque.
+
+É importante ressaltar que, assim como foi utilizado o algoritmo simétrico de Fernet para realizar as encriptações dos arquivos, esse mesmo algoritmo será utilizado para as decriptações.
+
 ```Python
 from cryptography.fernet import Fernet
 from cryptography.hazmat.backends import default_backend
@@ -223,6 +229,8 @@ from cryptography.hazmat.primitives.asymmetric import padding
 ```
 
 #### Lendo a chave privada assimétrica
+
+Para que se possa decriptar a chave simétrica utilizada com a chave privada assimétrica gerada anteriormente, é necessário primeiramente ler os dados do arquivo salvo da chave privada assimétrica e realizar a desserialização dos dados da chave.
 
 ```Python
 def read_private_key(filename):
@@ -237,6 +245,8 @@ def read_private_key(filename):
 ```
 
 #### Decriptando a chave simétrica
+
+Tendo-se a chave privada assimétrica e lendo-se o arquivo da chave simétrica encriptada, é possível utilizar o algoritmo SHA256 e a chave assimétrica para decriptar os dados do arquivo da chave simétrica.
 
 ```Python
 def decrypt_sym_key(sym_key_filename, private_key):
@@ -257,6 +267,8 @@ def decrypt_sym_key(sym_key_filename, private_key):
 
 #### Decriptando os arquivos
 
+Tendo-se a chave simétrica decriptada, é possível decriptar os dados de um arquivo com o método `Fernet(key).decrypt`. Para isso então é necessário primeiramente abrir o arquivo encriptado, então ler seu conteúdo, decriptar seu conteúdo e por escrever esse conteúdo de volta no arquivo.
+
 ```Python
 def decrypt_file(filename, key):
     with open(filename, "rb") as file_to_decrypt:
@@ -269,6 +281,8 @@ def decrypt_file(filename, key):
 ```
 
 #### Execução completa
+
+Definindo todas as funções para todos os passos descritos anteriormente, é possível realizar a execução completa do decriptador da seguinte forma:
 
 ```Python
 private_key = read_private_key("private_asym_key.pem")
