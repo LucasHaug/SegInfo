@@ -48,11 +48,6 @@ def decrypt_file(filename, key):
         decrypted_file.write(decrypted_data)
 
 
-def decrypt_files(files, sym_key):
-    for filename in files:
-        decrypt_file(filename,  sym_key)
-
-
 def main():
     private_key = read_private_key(PRIVATE_ASYM_KEY_FILENAME)
 
