@@ -26,6 +26,30 @@ Ou faça:
 pip3 install -r requirements.txt
 ```
 
+## 🚀 Utilizando os scripts
+
+É possível testar o funcionamento completo do programa com os script presentes neste repositório. Para esse teste, o alvo do ataque serão os arquivos presentes na pasta `agentes_secretos`, verifique o conteúdo dos arquivos antes de iniciar o processo.
+
+Primeiramente, para gerar as chaves do algoritmo assimétrico, rode o seguinte comando no terminal:
+
+```bash
+python3 generate_keys.py
+```
+
+Então, para encriptar os arquivos faça:
+
+```bash
+python3 encrypt.py
+```
+
+Verifique agora o conteúdo dos arquivos, veja se é possível visualizar seus conteúdos.
+
+Por fim, para decriptar os arquivos, rode o seguinte comando:
+
+```bash
+python3 decrypt.py
+```
+
 ## 📚 Entendendo o funcionamento
 
 Para realizar um ataque, algumas etapas têm que ser executadas antes, sendo elas as seguintes:
@@ -293,28 +317,4 @@ filenames_list = list_files("/caminho/até/o/diretório/com/arquivos/a/serem/dec
 
 for filename in filenames_list:
     decrypt_file(filename,  sym_key)
-```
-
-## 🚀 Utilizando os scripts
-
-É possível testar o funcionamento completo do programa com os script presentes neste repositório. Para esse teste, o alvo do ataque serão os arquivos presentes na pasta `agentes_secretos`, verifique o conteúdo dos arquivos antes de iniciar o processo.
-
-Primeiramente, para gerar as chaves do algoritmo assimétrico, rode o seguinte comando no terminal:
-
-```bash
-python3 generate_keys.py
-```
-
-Então, para encriptar os arquivos faça:
-
-```bash
-python3 encrypt.py
-```
-
-Verifique agora o conteúdo dos arquivos, veja se é possível visualizar seus conteúdos.
-
-Por fim, para decriptar os arquivos, rode o seguinte comando:
-
-```bash
-python3 decrypt.py
 ```
