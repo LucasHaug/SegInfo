@@ -11,6 +11,21 @@ import os
 TEST_DIR_TO_ENCRYPT = f"{os.path.dirname(os.path.abspath(__file__))}/agentes_secretos"
 
 
+def generate_sym_key():
+    key = Fernet.generate_key()
+    return key
+
+
+def encrypt_file(filename, key):
+    with open(filename, "rb") as file_to_encrypt:
+        file_data = file_to_encrypt.read()
+
+    encrypted_data = Fernet(key).encrypt(file_data)
+
+    with open(filename, "wb") as encrypted_file:
+        encrypted_file.write(encrypted_data)
+
+
 def read_public_key(filename):
     with open(filename, "rb") as key_file:
         public_key = serialization.load_pem_public_key(
@@ -19,11 +34,6 @@ def read_public_key(filename):
         )
 
     return public_key
-
-
-def generate_sym_key():
-    key = Fernet.generate_key()
-    return key
 
 
 def encrypt_sym_key(sym_key, public_key, sym_key_filename):
@@ -38,16 +48,6 @@ def encrypt_sym_key(sym_key, public_key, sym_key_filename):
 
     with open(sym_key_filename, "wb") as encrypted_key_file:
         encrypted_key_file.write(encrypted_key)
-
-
-def encrypt_file(filename, key):
-    with open(filename, "rb") as file_to_encrypt:
-        file_data = file_to_encrypt.read()
-
-    encrypted_data = Fernet(key).encrypt(file_data)
-
-    with open(filename, "wb") as encrypted_file:
-        encrypted_file.write(encrypted_data)
 
 
 def main():
