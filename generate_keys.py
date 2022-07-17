@@ -11,9 +11,6 @@ private_key = rsa.generate_private_key(
     backend=default_backend()
 )
 
-# Generate public_key
-public_key = private_key.public_key()
-
 # Save serialized private_key to file
 serial_private = private_key.private_bytes(
     encoding=serialization.Encoding.PEM,
@@ -21,7 +18,11 @@ serial_private = private_key.private_bytes(
     encryption_algorithm=serialization.NoEncryption()
 )
 
-with open(PRIVATE_ASYM_KEY_FILE_NAME, 'wb') as f: f.write(serial_private)
+with open(PRIVATE_ASYM_KEY_FILE_NAME, "wb") as file:
+    file.write(serial_private)
+
+# Generate public_key
+public_key = private_key.public_key()
 
 # Save serialized public_key to file
 serial_pub = public_key.public_bytes(
@@ -29,4 +30,5 @@ serial_pub = public_key.public_bytes(
     format=serialization.PublicFormat.SubjectPublicKeyInfo
 )
 
-with open(PUBLIC_ASYM_KEY_FILE_NAME, 'wb') as f: f.write(serial_pub)
+with open(PUBLIC_ASYM_KEY_FILE_NAME, "wb") as file:
+    file.write(serial_pub)
