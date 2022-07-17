@@ -60,7 +60,7 @@ from cryptography.hazmat.primitives import serialization
 
 #### Gerando a chave privada assimétricas
 
-Para gerar a chave privada foi utilizada a função `rsa.generate_private_key`, definindo o `public_exponent` como `65537` e o tamanho da chave como `2048`.
+Para gerar a chave privada é possível utilizar a função `rsa.generate_private_key`, definindo o `public_exponent` como `65537` e o tamanho da chave como `2048`.
 
 > O `public_exponent` deve ser um número primo positivo, de preferência um número primo grande. Neste trabalho foi utilizado o número `65537` por ser o número normalmente utilizado em criptografias utilizando o RSA. Esse número é utilizado, principalmente, por razões históricas, uma vez que implementações anteriores do RAS em que expoentes muito pequenos eram utilizadas ficavam mais vuneráveis, enquanto a utilização de expoentes muito elevados exigiam um poder computacional muito grande. Esse número também é conhecido como o número de Fermat (Fn = 2^[2^(n)] + 1), com n = 4.
 
@@ -124,6 +124,12 @@ def list_files(base_dir):
 
 ### Durante o ataque
 
+Assim como para gerar as chaves, para gerar a chave simétrica e realizar as encriptações necessárias se utilizará a biblioteca `cryptography` do Python.
+
+Sendo então necessário realizar a importação dos métodos que serão utilizados em todos os procedimentos durante o ataque.
+
+É importante ressaltar que o algoritmo simétrico a ser utilizado nos passos a seguir é o algoritmo de Fernet.
+
 ```Python
 from cryptography.fernet import Fernet
 from cryptography.hazmat.backends import default_backend
@@ -133,6 +139,8 @@ from cryptography.hazmat.primitives.asymmetric import padding
 
 #### Gerando a chave simétricas
 
+Para gerar a chave, é necessário utilizar o método `Fernet.generate_key()`:
+
 ```Python
 def generate_sym_key():
     key = Fernet.generate_key()
@@ -140,6 +148,8 @@ def generate_sym_key():
 ```
 
 #### Encriptando os arquivos
+
+Tendo-se a chave gerada anteriormente, é possível encriptar os dados de um arquivo com o método `Fernet(key).encrypt`. Para isso então é necessário primeiramente abrir o arquivo a ser encriptado, então ler seu conteúdo, encriptar seu conteúdo e por escrever esse conteúdo de volta no arquivo lido.
 
 ```Python
 def encrypt_file(filename, key):
@@ -154,6 +164,8 @@ def encrypt_file(filename, key):
 
 #### Lendo a chave pública assimétrica
 
+Para que se possa encriptar a chave simétrica gerada utilizando a chave pública assimétrica gerada anteriormente, é necessário primeiramente ler os dados do arquivo salvo e realizar a desserialização dos dados da chave.
+
 ```Python
 def read_public_key(filename):
     with open(filename, "rb") as key_file:
@@ -166,6 +178,8 @@ def read_public_key(filename):
 ```
 
 #### Encriptando a chave simétrica
+
+Tendo-se a chave pública assimétrica e a chave simétrica, é possível utilizar o algoritmo SHA256 e a chave assimétrica para encriptar a chave simétrica e então salvar o arquivo encriptado para uso posterior.
 
 ```Python
 def encrypt_sym_key(sym_key, public_key, sym_key_filename):
@@ -183,6 +197,8 @@ def encrypt_sym_key(sym_key, public_key, sym_key_filename):
 ```
 
 #### Execução completa
+
+Definindo todas as funções para todos os passos descritos anteriormente, é possível realizar a execução completa do funcionamento do ransomware da seguinte forma:
 
 ```Python
 sym_key = generate_sym_key()
