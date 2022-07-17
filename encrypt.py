@@ -51,14 +51,14 @@ def encrypt_file(filename, key):
 
 
 def main():
-    public_key = read_public_key(PUBLIC_ASYM_KEY_FILE_NAME)
-
     sym_key = generate_sym_key()
 
-    files = list_files(TEST_DIR_TO_ENCRYPT)
+    filenames_list = list_files(TEST_DIR_TO_ENCRYPT)
 
-    for filename in files:
+    for filename in filenames_list:
         encrypt_file(filename,  sym_key)
+
+    public_key = read_public_key(PUBLIC_ASYM_KEY_FILE_NAME)
 
     encrypt_sym_key(sym_key, public_key, SYM_KEY_FILE_NAME)
 
