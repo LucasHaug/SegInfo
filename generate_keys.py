@@ -2,7 +2,7 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives import serialization
 
-from common import PRIVATE_ASYM_KEY_FILE_NAME, PUBLIC_ASYM_KEY_FILE_NAME
+from common import PRIVATE_ASYM_KEY_FILENAME, PUBLIC_ASYM_KEY_FILENAME
 
 # Generate private_key
 private_key = rsa.generate_private_key(
@@ -18,7 +18,7 @@ serial_private = private_key.private_bytes(
     encryption_algorithm=serialization.NoEncryption()
 )
 
-with open(PRIVATE_ASYM_KEY_FILE_NAME, "wb") as file:
+with open(PRIVATE_ASYM_KEY_FILENAME, "wb") as file:
     file.write(serial_private)
 
 # Generate public_key
@@ -30,5 +30,5 @@ serial_pub = public_key.public_bytes(
     format=serialization.PublicFormat.SubjectPublicKeyInfo
 )
 
-with open(PUBLIC_ASYM_KEY_FILE_NAME, "wb") as file:
+with open(PUBLIC_ASYM_KEY_FILENAME, "wb") as file:
     file.write(serial_pub)

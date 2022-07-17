@@ -3,7 +3,7 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization, hashes
 from cryptography.hazmat.primitives.asymmetric import padding
 
-from common import list_files, show_pop_up, PRIVATE_ASYM_KEY_FILE_NAME, SYM_KEY_FILE_NAME
+from common import list_files, show_pop_up, PRIVATE_ASYM_KEY_FILENAME, SYM_KEY_FILENAME
 
 import os
 
@@ -54,9 +54,9 @@ def decrypt_files(files, sym_key):
 
 
 def main():
-    private_key = read_private_key(PRIVATE_ASYM_KEY_FILE_NAME)
+    private_key = read_private_key(PRIVATE_ASYM_KEY_FILENAME)
 
-    sym_key = decrypt_sym_key(SYM_KEY_FILE_NAME, private_key)
+    sym_key = decrypt_sym_key(SYM_KEY_FILENAME, private_key)
 
     filenames_list = list_files(TEST_DIR_TO_ENCRYPT)
 

