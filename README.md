@@ -58,11 +58,11 @@ from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives import serialization
 ```
 
-#### Gerando a chave privada assimétricas
+#### Gerando a chave privada assimétrica
 
 Para gerar a chave privada é possível utilizar a função `rsa.generate_private_key`, definindo o `public_exponent` como `65537` e o tamanho da chave como `2048`.
 
-> O `public_exponent` deve ser um número primo positivo, de preferência um número primo grande. Neste trabalho foi utilizado o número `65537` por ser o número normalmente utilizado em criptografias utilizando o RSA. Esse número é utilizado, principalmente, por razões históricas, uma vez que implementações anteriores do RAS em que expoentes muito pequenos eram utilizadas ficavam mais vuneráveis, enquanto a utilização de expoentes muito elevados exigiam um poder computacional muito grande. Esse número também é conhecido como o número de Fermat (Fn = 2^[2^(n)] + 1), com n = 4.
+> O `public_exponent` deve ser um número primo positivo, de preferência um número primo grande. Neste trabalho foi utilizado o número `65537` por ser o número normalmente utilizado em criptografias utilizando o RSA. Esse número é utilizado, principalmente, por razões históricas, uma vez que implementações anteriores do RSA em que expoentes muito pequenos eram utilizadas ficavam mais vuneráveis, enquanto a utilização de expoentes muito elevados exigiam um poder computacional muito grande. Esse número também é conhecido como o número de Fermat (Fn = 2^[2^(n)] + 1), com n = 4.
 
 ```Python
 private_key = rsa.generate_private_key(
@@ -85,7 +85,7 @@ with open("private_asym_key.pem", "wb") as file:
     file.write(serial_private)
 ```
 
-#### Gerando a chave pública assimétricas
+#### Gerando a chave pública assimétrica
 
 A chave pública, por sua vez, será gerada por meio da chave privada gerada anteriormente. Para isso será necessário executar o seguinte comando:
 
